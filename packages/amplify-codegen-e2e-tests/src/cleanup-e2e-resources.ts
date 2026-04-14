@@ -1,4 +1,16 @@
 /* eslint-disable spellcheck/spell-checker, camelcase, @typescript-eslint/no-explicit-any */
+
+// Ultimate safety nets - cleanup must NEVER fail the build
+process.on('uncaughtException', (err) => {
+  console.error('Uncaught exception in cleanup (non-fatal):', err.message);
+  process.exit(0);
+});
+
+process.on('unhandledRejection', (reason) => {
+  console.error('Unhandled rejection in cleanup (non-fatal):', reason);
+  process.exit(0);
+});
+
 import { CodeBuildClient, BatchGetBuildsCommand, Build } from '@aws-sdk/client-codebuild';
 import { AccountClient, ListRegionsCommand, ListRegionsRequest } from '@aws-sdk/client-account';
 import { AmplifyClient, ListAppsCommand, ListBackendEnvironmentsCommand, DeleteAppCommand } from '@aws-sdk/client-amplify';
@@ -154,6 +166,14 @@ const isNonJsonResponseError = (e: any): boolean => {
   return e instanceof SyntaxError || (e?.name === 'SyntaxError' && e?.message?.includes('Unexpected token'));
 };
 
+const isXmlParsingError = (e: any): boolean => {
+  const message = e?.message || '';
+  return message.includes('Entity expansion limit exceeded') ||
+    message.includes('Deserialization error') ||
+    message.includes('entity expansion') ||
+    (e?.name === 'Error' && message.includes('fast-xml-parser'));
+};
+
 const isNetworkError = (e: any): boolean => {
   const code = e?.code || e?.name || '';
   return ['ETIMEDOUT', 'ECONNREFUSED', 'ECONNRESET', 'EPIPE', 'EAI_AGAIN', 'NetworkingError', 'TimeoutError'].includes(code)
@@ -196,29 +216,45 @@ const testRoleStalenessFilter = (resource: Role): boolean => {
  * Get all S3 buckets in the account, and filter down to the ones we consider stale.
  */
 const getOrphanS3TestBuckets = async (account: AWSAccountInfo): Promise<S3BucketInfo[]> => {
-  const s3Client = new S3Client(getAWSConfig(account));
-  const listBucketResponse = await s3Client.send(new ListBucketsCommand({}));
-  const staleBuckets = listBucketResponse.Buckets.filter(testBucketStalenessFilter);
-  const bucketInfos = await Promise.all(
-    staleBuckets.map(async (staleBucket): Promise<S3BucketInfo> => {
-      const region = await getBucketRegion(account, staleBucket.Name);
-      return {
-        name: staleBucket.Name,
-        region,
-      };
-    }),
-  );
-  return bucketInfos;
+  try {
+    const s3Client = new S3Client(getAWSConfig(account));
+    const listBucketResponse = await s3Client.send(new ListBucketsCommand({}));
+    const staleBuckets = listBucketResponse.Buckets.filter(testBucketStalenessFilter);
+    const bucketInfos = await Promise.all(
+      staleBuckets.map(async (staleBucket): Promise<S3BucketInfo> => {
+        const region = await getBucketRegion(account, staleBucket.Name);
+        return {
+          name: staleBucket.Name,
+          region,
+        };
+      }),
+    );
+    return bucketInfos;
+  } catch (e) {
+    if (isXmlParsingError(e)) {
+      console.log(`XML parsing error listing orphan S3 buckets (non-fatal, skipping): ${e.message}`);
+      return [];
+    }
+    throw e;
+  }
 };
 
 /**
  * Get all iam roles in the account, and filter down to the ones we consider stale.
  */
 const getOrphanTestIamRoles = async (account: AWSAccountInfo): Promise<IamRoleInfo[]> => {
-  const iamClient = new IAMClient(getAWSConfig(account));
-  const listRoleResponse = await iamClient.send(new ListRolesCommand({MaxItems: 1000}));
-  const staleRoles = listRoleResponse.Roles.filter(testRoleStalenessFilter);
-  return staleRoles.map(it => ({ name: it.RoleName }));
+  try {
+    const iamClient = new IAMClient(getAWSConfig(account));
+    const listRoleResponse = await iamClient.send(new ListRolesCommand({MaxItems: 1000}));
+    const staleRoles = listRoleResponse.Roles.filter(testRoleStalenessFilter);
+    return staleRoles.map(it => ({ name: it.RoleName }));
+  } catch (e) {
+    if (isXmlParsingError(e)) {
+      console.log(`XML parsing error listing IAM roles (non-fatal, skipping): ${e.message}`);
+      return [];
+    }
+    throw e;
+  }
 };
 
 /**
@@ -240,26 +276,34 @@ const getOrphanTestIamRoles = async (account: AWSAccountInfo): Promise<IamRoleIn
  * @returns Promise<string[]> a list of AWS regions enabled by the account
  */
 const getRegionsEnabled = async (accountInfo: AWSAccountInfo): Promise<string[]> => {
-  // Specify service region to avoid possible endpoint unavailable error
-  const account = new AccountClient(getAWSConfig(accountInfo, 'us-east-1'));
+  try {
+    // Specify service region to avoid possible endpoint unavailable error
+    const account = new AccountClient(getAWSConfig(accountInfo, 'us-east-1'));
 
-  const enabledRegions: string[] = [];
-  let nextToken: string | undefined = undefined;
+    const enabledRegions: string[] = [];
+    let nextToken: string | undefined = undefined;
 
-  do {
-    const input: ListRegionsRequest = {
-      RegionOptStatusContains: ['ENABLED', 'ENABLED_BY_DEFAULT'],
-      NextToken: nextToken,
-    };
+    do {
+      const input: ListRegionsRequest = {
+        RegionOptStatusContains: ['ENABLED', 'ENABLED_BY_DEFAULT'],
+        NextToken: nextToken,
+      };
 
-    const response = await account.send(new ListRegionsCommand(input));
-    nextToken = response.NextToken;
+      const response = await account.send(new ListRegionsCommand(input));
+      nextToken = response.NextToken;
 
-    enabledRegions.push(...response.Regions.map(r => r.RegionName).filter(Boolean));
-  } while (nextToken);
+      enabledRegions.push(...response.Regions.map(r => r.RegionName).filter(Boolean));
+    } while (nextToken);
 
-  console.log('All enabled regions fetched: ', enabledRegions);
-  return enabledRegions;
+    console.log('All enabled regions fetched: ', enabledRegions);
+    return enabledRegions;
+  } catch (e) {
+    if (isXmlParsingError(e)) {
+      console.log(`XML parsing error listing regions (non-fatal, using default test regions): ${e.message}`);
+      return AWS_REGIONS_TO_RUN_TESTS;
+    }
+    throw e;
+  }
 };
 
 /**
@@ -277,7 +321,17 @@ const getAmplifyApps = async (account: AWSAccountInfo, region: string, regionsEn
     return [];
   }
 
-  const amplifyApps = await amplifyClient.send(new ListAppsCommand({ maxResults: 50 })); // keeping it to 50 as max supported is 50
+  let amplifyApps;
+  try {
+    amplifyApps = await amplifyClient.send(new ListAppsCommand({ maxResults: 50 }));
+  } catch (e) {
+    if (isXmlParsingError(e)) {
+      console.log(`XML parsing error listing Amplify apps in ${region} (non-fatal, skipping): ${e.message}`);
+      return [];
+    }
+    throw e;
+  }
+
   const result: AmplifyAppInfo[] = [];
   for (const app of amplifyApps.apps) {
     const backends: Record<string, StackInfo> = {};
@@ -349,6 +403,10 @@ const getStackDetails = async (stackName: string, account: AWSAccountInfo, regio
       console.log(`Stack ${stackName} does not exist in ${region}. Skipping.`);
       return;
     }
+    if (isXmlParsingError(e)) {
+      console.log(`XML parsing error describing stack ${stackName} in ${region} (non-fatal, skipping): ${e.message}`);
+      return;
+    }
     throw e;
   }
 };
@@ -361,19 +419,28 @@ const getStacks = async (account: AWSAccountInfo, region: string, regionsEnabled
     return [];
   }
 
-  const stacks = await cfnClient.send(new ListStacksCommand({
-      StackStatusFilter: [
-        'CREATE_COMPLETE',
-        'ROLLBACK_FAILED',
-        'DELETE_FAILED',
-        'UPDATE_COMPLETE',
-        'UPDATE_ROLLBACK_FAILED',
-        'UPDATE_ROLLBACK_COMPLETE',
-        'IMPORT_COMPLETE',
-        'IMPORT_ROLLBACK_FAILED',
-        'IMPORT_ROLLBACK_COMPLETE',
-      ],
-    }));
+  let stacks;
+  try {
+    stacks = await cfnClient.send(new ListStacksCommand({
+        StackStatusFilter: [
+          'CREATE_COMPLETE',
+          'ROLLBACK_FAILED',
+          'DELETE_FAILED',
+          'UPDATE_COMPLETE',
+          'UPDATE_ROLLBACK_FAILED',
+          'UPDATE_ROLLBACK_COMPLETE',
+          'IMPORT_COMPLETE',
+          'IMPORT_ROLLBACK_FAILED',
+          'IMPORT_ROLLBACK_COMPLETE',
+        ],
+      }));
+  } catch (e) {
+    if (isXmlParsingError(e)) {
+      console.log(`XML parsing error listing stacks in ${region} (non-fatal, skipping): ${e.message}`);
+      return [];
+    }
+    throw e;
+  }
 
   // We are interested in only the root stacks that are deployed by amplify-cli
   const rootStacks = stacks.StackSummaries.filter(stack => !stack.RootId);
@@ -430,7 +497,16 @@ const getBucketRegion = async (account: AWSAccountInfo, bucketName: string): Pro
 const getS3Buckets = async (account: AWSAccountInfo): Promise<S3BucketInfo[]> => {
   const awsConfig = getAWSConfig(account);
   const s3Client = new S3Client(awsConfig);
-  const buckets = await s3Client.send(new ListBucketsCommand({}));
+  let buckets;
+  try {
+    buckets = await s3Client.send(new ListBucketsCommand({}));
+  } catch (e) {
+    if (isXmlParsingError(e)) {
+      console.log(`XML parsing error listing S3 buckets (non-fatal, skipping): ${e.message}`);
+      return [];
+    }
+    throw e;
+  }
   const result: S3BucketInfo[] = [];
   for (const bucket of buckets.Buckets) {
     let region: string | undefined;
@@ -460,6 +536,8 @@ const getS3Buckets = async (account: AWSAccountInfo): Promise<S3BucketInfo[]> =>
         console.error(`Skipping processing ${account.accountId}, bucket ${bucket.Name}`, e);
       } else if (isNonJsonResponseError(e)) {
         console.warn(`Received non-JSON response for bucket ${bucket.Name}. Skipping.`, e.message);
+      } else if (isXmlParsingError(e)) {
+        console.log(`XML parsing error for bucket ${bucket.Name} (non-fatal, skipping): ${e.message}`);
       } else {
         throw e;
       }
@@ -625,9 +703,17 @@ const deleteAttachedRolePolicies = async (
   accountIndex: number,
   roleName: string,
 ): Promise<void> => {
-  const iamClient = new IAMClient(getAWSConfig(account));
-  const rolePolicies = await iamClient.send(new ListAttachedRolePoliciesCommand({ RoleName: roleName }));
-  await Promise.all(rolePolicies.AttachedPolicies.map(policy => detachIamAttachedRolePolicy(account, accountIndex, roleName, policy)));
+  try {
+    const iamClient = new IAMClient(getAWSConfig(account));
+    const rolePolicies = await iamClient.send(new ListAttachedRolePoliciesCommand({ RoleName: roleName }));
+    await Promise.all(rolePolicies.AttachedPolicies.map(policy => detachIamAttachedRolePolicy(account, accountIndex, roleName, policy)));
+  } catch (e) {
+    if (isXmlParsingError(e)) {
+      console.log(`${generateAccountInfo(account, accountIndex)} XML parsing error listing attached policies for ${roleName} (non-fatal, skipping): ${e.message}`);
+      return;
+    }
+    throw e;
+  }
 };
 
 const detachIamAttachedRolePolicy = async (
@@ -653,9 +739,17 @@ const deleteRolePolicies = async (
   accountIndex: number,
   roleName: string,
 ): Promise<void> => {
-  const iamClient = new IAMClient(getAWSConfig(account));
-  const rolePolicies = await iamClient.send(new ListRolePoliciesCommand({ RoleName: roleName }));
-  await Promise.all(rolePolicies.PolicyNames.map(policy => deleteIamRolePolicy(account, accountIndex, roleName, policy)));
+  try {
+    const iamClient = new IAMClient(getAWSConfig(account));
+    const rolePolicies = await iamClient.send(new ListRolePoliciesCommand({ RoleName: roleName }));
+    await Promise.all(rolePolicies.PolicyNames.map(policy => deleteIamRolePolicy(account, accountIndex, roleName, policy)));
+  } catch (e) {
+    if (isXmlParsingError(e)) {
+      console.log(`${generateAccountInfo(account, accountIndex)} XML parsing error listing policies for ${roleName} (non-fatal, skipping): ${e.message}`);
+      return;
+    }
+    throw e;
+  }
 };
 
 const deleteIamRolePolicy = async (
@@ -904,6 +998,11 @@ const cleanupAccount = async (account: AWSAccountInfo, accountIndex: number, fil
       summary.skippedReason = 'network error';
       return;
     }
+    if (isXmlParsingError(e)) {
+      console.warn(`${generateAccountInfo(account, accountIndex)} XML parsing error encountered. Skipping this account.`, e.message);
+      summary.skippedReason = 'XML parsing error';
+      return;
+    }
     console.error(`${generateAccountInfo(account, accountIndex)} Cleanup failed with unexpected error:`, e);
     summary.skippedReason = 'unexpected error';
   }
@@ -999,9 +1098,10 @@ const printCleanupSummary = (): void => {
 
 cleanup()
   .catch((e) => {
-    console.log(`Cleanup encountered an error but completing gracefully: ${e.message}`);
+    console.error('Top-level cleanup error (non-fatal):', e?.message || e);
   })
   .finally(() => {
     printCleanupSummary();
+    console.log('Cleanup complete. Exiting with code 0.');
     process.exit(0);
   });
