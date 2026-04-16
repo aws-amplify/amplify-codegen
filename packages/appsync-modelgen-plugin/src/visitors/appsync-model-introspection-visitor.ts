@@ -273,7 +273,7 @@ export class AppSyncModelIntrospectionVisitor<
   protected getType(gqlType: string): FieldType | InputFieldType | UnionFieldType | InterfaceFieldType {
     // Todo: Handle unlisted scalars
     if (gqlType in METADATA_SCALAR_MAP) {
-      return METADATA_SCALAR_MAP[gqlType] as FieldType;
+      return METADATA_SCALAR_MAP[gqlType].output as FieldType;
     }
     if (gqlType in this.enumMap) {
       return { enum: this.enumMap[gqlType].name };
