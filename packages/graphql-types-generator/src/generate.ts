@@ -1,7 +1,6 @@
 import { GraphQLSchema, DocumentNode, Source } from 'graphql';
 import * as fs from 'fs-extra';
 import * as path from 'path';
-import * as rimraf from 'rimraf';
 
 import { loadSchema, loadAndMergeQueryDocuments, parseSchema, parseAndMergeQueryDocuments } from './loading';
 import { validateQueryDocument } from './validation';
@@ -178,9 +177,9 @@ function generateTypesFlowModern(schema: GraphQLSchema, document: DocumentNode, 
 function writeGeneratedFiles(generatedFiles: BasicGeneratedFileMap, outputDirectory: string) {
   // Clear all generated stuff to make sure there isn't anything
   // unnecessary lying around.
-  rimraf.sync(outputDirectory);
+  fs.removeSync(outputDirectory);
   // Remake the output directory
-  fs.mkdirSync(outputDirectory);
+  fs.ensureDirSync(outputDirectory);
 
   for (const [fileName, generatedFile] of Object.entries(generatedFiles)) {
     fs.writeFileSync(path.join(outputDirectory, fileName), generatedFile.output);

@@ -6,10 +6,15 @@ import { createTypeAnnotationFromGraphQLTypeFunction } from './helpers';
 
 import * as t from '@babel/types';
 
+const commentLine = (value: string): t.CommentLine => ({
+  type: 'CommentLine',
+  value,
+});
+
 export type ObjectProperty = {
   name: string;
   description?: string | null | undefined;
-  annotation: t.FlowTypeAnnotation;
+  annotation: t.FlowType;
 };
 
 export interface FlowCompilerOptions extends CompilerOptions {
@@ -28,21 +33,15 @@ export class FlowGenerator {
 
   public enumerationDeclaration(type: GraphQLEnumType) {
     const { name, description } = type;
-    const unionValues = type.getValues().map(({ value }) => {
-      const type = t.stringLiteralTypeAnnotation();
-      type.value = value;
-
-      return type;
-    });
+    const unionValues = type.getValues().map(({ value }) =>
+      t.stringLiteralTypeAnnotation(value)
+    );
 
     const typeAlias = t.exportNamedDeclaration(t.typeAlias(t.identifier(name), undefined, t.unionTypeAnnotation(unionValues)), []);
 
-    typeAlias.leadingComments = [
-      {
-        type: 'CommentLine',
-        value: ` ${description}`,
-      } as t.CommentLine,
-    ];
+    if (description) {
+      typeAlias.leadingComments = [commentLine(` ${description}`)];
+    }
 
     return typeAlias;
   }
@@ -61,12 +60,9 @@ export class FlowGenerator {
 
     const typeAlias = this.typeAliasObject(name, fields);
 
-    typeAlias.leadingComments = [
-      {
-        type: 'CommentLine',
-        value: ` ${description}`,
-      } as t.CommentLine,
-    ];
+    if (description) {
+      typeAlias.leadingComments = [commentLine(` ${description}`)];
+    }
 
     return typeAlias;
   }
@@ -74,10 +70,6 @@ export class FlowGenerator {
   public objectTypeAnnotation(fields: ObjectProperty[], isInputObject: boolean = false) {
     const objectTypeAnnotation = t.objectTypeAnnotation(
       fields.map(({ name, description, annotation }) => {
-        if (annotation.type === 'NullableTypeAnnotation') {
-          t.identifier(name + '?');
-        }
-
         const objectTypeProperty = t.objectTypeProperty(
           t.identifier(
             // Nullable fields on input objects do not have to be defined
@@ -88,12 +80,7 @@ export class FlowGenerator {
         );
 
         if (description) {
-          objectTypeProperty.trailingComments = [
-            {
-              type: 'CommentLine',
-              value: ` ${description}`,
-            } as t.CommentLine,
-          ];
+          objectTypeProperty.trailingComments = [commentLine(` ${description}`)];
         }
 
         return objectTypeProperty;
@@ -123,7 +110,7 @@ export class FlowGenerator {
     );
   }
 
-  public typeAliasGenericUnion(name: string, members: t.FlowTypeAnnotation[]) {
+  public typeAliasGenericUnion(name: string, members: t.FlowType[]) {
     return t.typeAlias(t.identifier(name), undefined, t.unionTypeAnnotation(members));
   }
 
@@ -131,7 +118,15 @@ export class FlowGenerator {
     return t.exportNamedDeclaration(declaration, []);
   }
 
-  public annotationFromScopeStack(scope: string[]) {
-    return t.genericTypeAnnotation(t.identifier(scope.join('_')));
+  public scopeName(scope: string[]): string {
+    return scope.join('_');
+  }
+
+  public annotationFromName(name: string): t.GenericTypeAnnotation {
+    return t.genericTypeAnnotation(t.identifier(name));
+  }
+
+  public annotationFromScopeStack(scope: string[]): t.GenericTypeAnnotation {
+    return this.annotationFromName(this.scopeName(scope));
   }
 }

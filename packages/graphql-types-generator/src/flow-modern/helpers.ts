@@ -10,7 +10,7 @@ import {
   isListType,
 } from 'graphql';
 
-import * as t from 'babel-types';
+import * as t from '@babel/types';
 
 import { CompilerOptions } from '../compiler';
 
@@ -28,7 +28,7 @@ export function createTypeAnnotationFromGraphQLTypeFunction(compilerOptions: Com
     { nullable }: { nullable: boolean } = {
       nullable: true,
     }
-  ): t.FlowTypeAnnotation {
+  ): t.FlowType {
     if (isNonNullType(type)) {
       return typeAnnotationFromGraphQLType(type.ofType, { nullable: false });
     }
