@@ -1,7 +1,7 @@
 
 -----
 
-The following software may be included in this product: @ampproject/remapping, @aws-crypto/ie11-detection, @aws-crypto/sha1-browser, @aws-crypto/sha256-browser, @aws-crypto/sha256-universal, @aws-crypto/supports-web-crypto, @hutson/parse-repository-url, ejs, spdx-correct, teeny-request, validate-npm-package-license. A copy of the source code may be downloaded from git+https://github.com/ampproject/remapping.git (@ampproject/remapping), git@github.com:aws/aws-sdk-js-crypto-helpers.git (@aws-crypto/ie11-detection), git@github.com:aws/aws-sdk-js-crypto-helpers.git (@aws-crypto/sha1-browser), git@github.com:aws/aws-sdk-js-crypto-helpers.git (@aws-crypto/sha256-browser), git@github.com:aws/aws-sdk-js-crypto-helpers.git (@aws-crypto/sha256-universal), git@github.com:aws/aws-sdk-js-crypto-helpers.git (@aws-crypto/supports-web-crypto), https://gitlab.com/hyper-expanse/open-source/parse-repository-url.git (@hutson/parse-repository-url), git://github.com/mde/ejs.git (ejs), https://github.com/jslicense/spdx-correct.js.git (spdx-correct), https://github.com/googleapis/teeny-request.git (teeny-request), https://github.com/kemitchell/validate-npm-package-license.js.git (validate-npm-package-license). This software contains the following license and notice below:
+The following software may be included in this product: @ampproject/remapping, @aws-cdk/cloud-assembly-api, @aws-crypto/ie11-detection, @aws-crypto/sha1-browser, @aws-crypto/sha256-browser, @aws-crypto/sha256-universal, @aws-crypto/supports-web-crypto, @hutson/parse-repository-url, ejs, spdx-correct, teeny-request, validate-npm-package-license. A copy of the source code may be downloaded from git+https://github.com/ampproject/remapping.git (@ampproject/remapping), https://github.com/aws/aws-cdk-cli (@aws-cdk/cloud-assembly-api), git@github.com:aws/aws-sdk-js-crypto-helpers.git (@aws-crypto/ie11-detection), git@github.com:aws/aws-sdk-js-crypto-helpers.git (@aws-crypto/sha1-browser), git@github.com:aws/aws-sdk-js-crypto-helpers.git (@aws-crypto/sha256-browser), git@github.com:aws/aws-sdk-js-crypto-helpers.git (@aws-crypto/sha256-universal), git@github.com:aws/aws-sdk-js-crypto-helpers.git (@aws-crypto/supports-web-crypto), https://gitlab.com/hyper-expanse/open-source/parse-repository-url.git (@hutson/parse-repository-url), git://github.com/mde/ejs.git (ejs), https://github.com/jslicense/spdx-correct.js.git (spdx-correct), https://github.com/googleapis/teeny-request.git (teeny-request), https://github.com/kemitchell/validate-npm-package-license.js.git (validate-npm-package-license). This software contains the following license and notice below:
 
 Apache License
                            Version 2.0, January 2004
@@ -7734,19 +7734,62 @@ Copyright 2018-2026 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 The AWS CDK includes the following third-party software/licensing:
 
 ** minimatch - https://www.npmjs.com/package/minimatch
-Copyright (c) Isaac Z. Schlueter and Contributors
 
-Permission to use, copy, modify, and/or distribute this software for any
-purpose with or without fee is hereby granted, provided that the above
-copyright notice and this permission notice appear in all copies.
+Blue Oak Model License
 
-THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
-WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
-MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
-ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
-WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
-ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
-IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+Version 1.0.0
+
+Purpose
+
+This license gives everyone as much permission to work with
+this software as possible, while protecting contributors
+from liability.
+
+Acceptance
+
+In order to receive this license, you must agree to its
+rules. The rules of this license are both obligations
+under that agreement and conditions to your license.
+You must not do anything with this software that triggers
+a rule that you cannot or will not follow.
+
+Copyright
+
+Each contributor licenses you to do everything with this
+software that would otherwise infringe that contributor's
+copyright in it.
+
+Notices
+
+You must ensure that everyone who gets a copy of
+any part of this software from you, with or without
+changes, also gets the text of this license or a link to
+https://blueoakcouncil.org/license/1.0.0.
+
+Excuse
+
+If anyone notifies you in writing that you have not
+complied with Notices, you can keep your
+license by taking all practical steps to comply within 30
+days after the notice. If you do not do so, your license
+ends immediately.
+
+Patent
+
+Each contributor licenses you to do everything with this
+software that would otherwise infringe any patent claims
+they can license or become able to license.
+
+Reliability
+
+No contributor can revoke this license.
+
+No Liability
+
+As far as the law allows, this software comes as is,
+without any warranty or condition, and no contributor
+will be liable to anyone for any damages related to this
+software or this license, under any kind of legal claim.
 
 ----------------
 
@@ -8010,7 +8053,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ----------------
 
 ** brace-expansion - https://www.npmjs.com/package/brace-expansion
-Copyright (c) 2013 Julian Gruber <julian@juliangruber.com>
+Copyright Julian Gruber <julian@juliangruber.com>
+TypeScript port Copyright Isaac Z. Schlueter <i@izs.me>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -8033,29 +8077,8 @@ SOFTWARE.
 ----------------
 
 ** balanced-match - https://www.npmjs.com/package/balanced-match
-Copyright (c) 2013 Julian Gruber <julian@juliangruber.com>
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-
-----------------
-
-** concat-map - https://www.npmjs.com/package/concat-map
+Original code Copyright Julian Gruber <julian@juliangruber.com>
+Port to TypeScript Copyright Isaac Z. Schlueter <i@izs.me>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -14131,7 +14154,7 @@ THE SOFTWARE.
 
 -----
 
-The following software may be included in this product: fs-extra. A copy of the source code may be downloaded from https://github.com/jprichardson/node-fs-extra. This software contains the following license and notice below:
+The following software may be included in this product: fs-extra. A copy of the source code may be downloaded from git+https://github.com/jprichardson/node-fs-extra.git. This software contains the following license and notice below:
 
 (The MIT License)
 
@@ -17468,7 +17491,7 @@ THE SOFTWARE.
 
 -----
 
-The following software may be included in this product: minipass, tar. A copy of the source code may be downloaded from https://github.com/isaacs/minipass (minipass), https://github.com/isaacs/node-tar.git (tar). This software contains the following license and notice below:
+The following software may be included in this product: minipass, sax, tar. A copy of the source code may be downloaded from https://github.com/isaacs/minipass (minipass), git+ssh://git@github.com/isaacs/sax-js.git (sax), https://github.com/isaacs/node-tar.git (tar). This software contains the following license and notice below:
 
 # Blue Oak Model License
 
@@ -19933,52 +19956,6 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
------
-
-The following software may be included in this product: sax. A copy of the source code may be downloaded from git://github.com/isaacs/sax-js.git. This software contains the following license and notice below:
-
-The ISC License
-
-Copyright (c) 2010-2022 Isaac Z. Schlueter and Contributors
-
-Permission to use, copy, modify, and/or distribute this software for any
-purpose with or without fee is hereby granted, provided that the above
-copyright notice and this permission notice appear in all copies.
-
-THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
-WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
-MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
-ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
-WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
-ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
-IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-
-====
-
-`String.fromCodePoint` by Mathias Bynens used according to terms of MIT
-License, as follows:
-
-Copyright (c) 2010-2022 Mathias Bynens <https://mathiasbynens.be/>
-
-    Permission is hereby granted, free of charge, to any person obtaining
-    a copy of this software and associated documentation files (the
-    "Software"), to deal in the Software without restriction, including
-    without limitation the rights to use, copy, modify, merge, publish,
-    distribute, sublicense, and/or sell copies of the Software, and to
-    permit persons to whom the Software is furnished to do so, subject to
-    the following conditions:
-
-    The above copyright notice and this permission notice shall be
-    included in all copies or substantial portions of the Software.
-
-    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-    EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-    NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
-    LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-    OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-    WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 -----
 
