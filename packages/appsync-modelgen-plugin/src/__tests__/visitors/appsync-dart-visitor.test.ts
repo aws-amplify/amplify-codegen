@@ -259,6 +259,56 @@ describe('AppSync Dart Visitor', () => {
       const generatedCode = visitor.generate();
       expect(generatedCode).toMatchSnapshot();
     })
+
+    it('should map identityPool provider to IAM in generated Dart code', () => {
+      const schema = /* GraphQL */ `
+        type IdentityPoolModel
+          @model
+          @auth(
+            rules: [
+              { allow: private, provider: "identityPool" }
+              { allow: owner }
+            ]
+          ) {
+          id: ID!
+          name: String!
+        }
+      `;
+
+      const visitor = getVisitor({
+        schema,
+        selectedType: 'IdentityPoolModel',
+        isTimestampFieldsAdded: true,
+      });
+
+      const generatedCode = visitor.generate();
+      expect(generatedCode).toContain('AuthRuleProvider.IAM');
+      expect(generatedCode).not.toContain('AuthRuleProvider.IDENTITYPOOL');
+    });
+
+    it('should map iam provider to IAM in generated Dart code (unchanged behavior)', () => {
+      const schema = /* GraphQL */ `
+        type IamModel
+          @model
+          @auth(
+            rules: [
+              { allow: private, provider: "iam" }
+            ]
+          ) {
+          id: ID!
+          name: String!
+        }
+      `;
+
+      const visitor = getVisitor({
+        schema,
+        selectedType: 'IamModel',
+        isTimestampFieldsAdded: true,
+      });
+
+      const generatedCode = visitor.generate();
+      expect(generatedCode).toContain('AuthRuleProvider.IAM');
+    });
   });
 
   describe('Model with Connection Directive', () => {
