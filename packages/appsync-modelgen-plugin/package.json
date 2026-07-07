@@ -31,24 +31,24 @@
     "@graphql-codegen/visitor-plugin-common": "^1.22.0",
     "@graphql-tools/utils": "^6.0.18",
     "chalk": "^3.0.0",
-    "change-case": "^4.1.1",
-    "graphql-transformer-common": "^4.25.1",
-    "lower-case-first": "^2.0.1",
+    "change-case": "^4.1.2",
+    "graphql-transformer-common": "^4.34.0",
+    "lower-case-first": "^2.0.2",
     "pluralize": "^8.0.0",
     "strip-indent": "^3.0.0",
-    "ts-dedent": "^1.1.0"
+    "ts-dedent": "^1.2.0"
   },
   "devDependencies": {
-    "@aws-amplify/graphql-directives": "^1.0.1",
+    "@aws-amplify/graphql-directives": "^1.1.1",
     "@graphql-codegen/testing": "^1.17.7",
     "@graphql-codegen/typescript": "^2.8.3",
-    "@types/fs-extra": "^8.1.2",
-    "@types/node": "^12.12.6",
-    "@types/pluralize": "0.0.29",
-    "ajv": "^8.12.0",
-    "graphql": "^15.5.0",
+    "@types/fs-extra": "^8.1.5",
+    "@types/node": "^12.20.55",
+    "@types/pluralize": "0.0.33",
+    "ajv": "^8.20.0",
+    "graphql": "^15.10.2",
     "java-ast": "^0.3.0",
-    "ts-json-schema-generator": "1.0.0"
+    "ts-json-schema-generator": "1.5.1"
   },
   "peerDependencies": {
     "graphql": "^15.5.0"

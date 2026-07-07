@@ -33,12 +33,12 @@
     "extract-api": "ts-node ../../scripts/extract-api.ts"
   },
   "dependencies": {
-    "graphql": "^15.5.0",
+    "graphql": "^15.10.2",
     "handlebars": "4.7.9",
-    "yargs": "^15.1.0"
+    "yargs": "^15.4.1"
   },
   "devDependencies": {
-    "@types/node": "^10.17.13"
+    "@types/node": "^10.17.60"
   },
   "publishConfig": {
     "access": "public"
