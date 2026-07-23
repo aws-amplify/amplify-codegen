@@ -1,4 +1,4 @@
-import { CognitoIdentityServiceProvider } from 'aws-sdk';
+import { CognitoIdentityProviderClient, AdminCreateUserCommand, AdminAddUserToGroupCommand } from '@aws-sdk/client-cognito-identity-provider';
 import { getProjectMeta, getBackendAmplifyMeta } from '@aws-amplify/amplify-codegen-e2e-core';
 import Amplify, { Auth } from 'aws-amplify';
 import { AuthenticationDetails } from 'amazon-cognito-identity-js';
@@ -12,24 +12,13 @@ const tempPassword = 'tempPassword';
 //if groupName is specified, add the user to the group.
 export async function setupUser(userPoolId: string, username: string, password: string, groupName?: string) {
   const cognitoClient = getConfiguredCognitoClient();
-  await cognitoClient
-    .adminCreateUser({
-      UserPoolId: userPoolId,
-      UserAttributes: [{ Name: 'email', Value: 'username@amazon.com' }],
-      Username: username,
-      MessageAction: 'SUPPRESS',
-      TemporaryPassword: tempPassword,
-    })
-    .promise();
-
-  //   await cognitoClient
-  //     .adminSetUserPassword({
-  //       UserPoolId: userPoolId,
-  //       Username: username,
-  //       Password: password,
-  //       Permanent: true,
-  //     })
-  //     .promise();
+  await cognitoClient.send(new AdminCreateUserCommand({
+    UserPoolId: userPoolId,
+    UserAttributes: [{ Name: 'email', Value: 'username@amazon.com' }],
+    Username: username,
+    MessageAction: 'SUPPRESS',
+    TemporaryPassword: tempPassword,
+  }));
 
   const authDetails = new AuthenticationDetails({
     Username: username,
@@ -39,41 +28,36 @@ export async function setupUser(userPoolId: string, username: string, password: 
   await authenticateUser(user, authDetails, password);
 
   if (groupName) {
-    await cognitoClient
-      .adminAddUserToGroup({
-        UserPoolId: userPoolId,
-        Username: username,
-        GroupName: groupName,
-      })
-      .promise();
+    await cognitoClient.send(new AdminAddUserToGroupCommand({
+      UserPoolId: userPoolId,
+      Username: username,
+      GroupName: groupName,
+    }));
   }
 }
 
 export async function addUserToGroup(
-  cognitoClient: CognitoIdentityServiceProvider,
+  cognitoClient: CognitoIdentityProviderClient,
   userPoolId: string,
   username: string,
   groupName?: string,
 ) {
-  await cognitoClient
-    .adminAddUserToGroup({
-      UserPoolId: userPoolId,
-      Username: username,
-      GroupName: groupName,
-    })
-    .promise();
+  await cognitoClient.send(new AdminAddUserToGroupCommand({
+    UserPoolId: userPoolId,
+    Username: username,
+    GroupName: groupName,
+  }));
 }
 
-export function getConfiguredCognitoClient(): CognitoIdentityServiceProvider {
-  const cognitoClient = new CognitoIdentityServiceProvider({ apiVersion: '2016-04-19', region: process.env.CLI_REGION });
-
-  const awsconfig = {
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+export function getConfiguredCognitoClient(): CognitoIdentityProviderClient {
+  const cognitoClient = new CognitoIdentityProviderClient({
+    apiVersion: '2016-04-19',
     region: process.env.CLI_REGION,
-  };
-
-  cognitoClient.config.update(awsconfig);
+    credentials: {
+      accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+    }
+  });
 
   return cognitoClient;
 }

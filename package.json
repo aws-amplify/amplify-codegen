@@ -39,6 +39,7 @@
     "trigger-deprecate-release": "source ./scripts/cloud-release.sh && deprecateRelease",
     "view-test-artifact": "./scripts/view-test-artifacts.sh",
     "cleanup-stale-resources": "source ./scripts/cloud-utils.sh && cleanupStaleResources",
+    "cloud-pr": "./scripts/cloud-pr.sh",
     "cloud-e2e": "source scripts/cloud-utils.sh && cloudE2E",
     "cloud-e2e-beta": "source scripts/cloud-utils.sh && cloudE2EBeta",
     "split-e2e-tests": "yarn ts-node ./scripts/split-e2e-tests.ts && git add .codebuild/e2e_workflow.yml",
@@ -70,13 +71,14 @@
   "author": "Amazon Web Services",
   "license": "Apache-2.0",
   "dependencies": {
-    "lerna": "^5.1.6"
+    "lerna": "^5.1.6",
+    "tar": "^7.5.8"
   },
   "workspaces": [
     "packages/*"
   ],
   "devDependencies": {
-    "@aws-amplify/amplify-cli-core": "^4.4.0",
+    "@aws-amplify/amplify-cli-core": "^4.4.1",
     "@commitlint/cli": "^17.0.3",
     "@commitlint/config-conventional": "^17.0.3",
     "@commitlint/config-lerna-scopes": "^17.0.2",
@@ -89,7 +91,10 @@
     "@typescript-eslint/eslint-plugin": "^4.0.0",
     "@typescript-eslint/parser": "^4.0.0",
     "amplify-headless-interface": "^1.13.1",
-    "aws-sdk": "2.1414.0",
+    "@aws-sdk/client-codebuild": "^3.996.0",
+    "@aws-sdk/client-s3": "^3.996.0",
+    "@aws-sdk/credential-providers": "^3.996.0",
+    "@smithy/types": "^4.13.0",
     "cli-progress": "3.12.0",
     "cmd-shim": "^3.0.3",
     "codecov": "^3.7.0",
@@ -126,19 +131,30 @@
   "resolutions": {
     "**/@aws-amplify/amplify-codegen-e2e-tests/**/cookie": "^0.7.0",
     "**/@aws-amplify/amplify-codegen-e2e-tests/**/fast-xml-parser": "^4.4.1",
+    "**/@aws-sdk/xml-builder/**/fast-xml-parser": "5.3.8",
+    "@smithy/config-resolver": "^4.4.0",
     "@octokit/plugin-paginate-rest": "^9.2.2",
     "@octokit/request": "^8.4.1",
     "@octokit/request-error": "^5.1.1",
-    "axios": "^1.7.4",
+    "aws-cdk-lib": "^2.189.1",
+    "axios": "^1.16.0",
     "cross-fetch": "^2.2.6",
+    "form-data": "^4.0.4",
     "glob-parent": "^6.0.2",
     "graphql": "15.8.0",
+    "handlebars": ">=4.7.9",
+    "**/codecov/**/js-yaml": "^3.14.2",
+    "**/nx/**/js-yaml": "^4.1.1",
+    "immutable": "^4.3.8",
     "lodash": "^4.17.21",
     "minimist": "^1.2.6",
     "node-fetch": "^2.6.7",
     "parse-url": "^8.1.0",
+    "tar": "^7.5.8",
     "xml2js": "0.5.0",
-    "aws-cdk-lib": "^2.187.0"
+    "tmp": "^0.2.4",
+    "minimatch": "^3.1.3",
+    "http-proxy-agent": "^7.0.0"
   },
   "config": {
     "commitizen": {

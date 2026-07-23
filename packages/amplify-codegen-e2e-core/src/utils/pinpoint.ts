@@ -1,4 +1,4 @@
-import { Pinpoint } from 'aws-sdk';
+import { PinpointClient, GetAppCommand } from '@aws-sdk/client-pinpoint';
 import { getCLIPath, nspawn as spawn, singleSelect, amplifyRegions, addCITags, KEY_DOWN_ARROW, confirmUsingGen1Amplify } from '..';
 import _ from 'lodash';
 
@@ -43,23 +43,23 @@ const serviceRegionMap = {
 export async function pinpointAppExist(pinpointProjectId: string): Promise<boolean> {
   let result = false;
 
-  const pinpointClient = new Pinpoint({
-    accessKeyId: settings.accessKeyId,
-    secretAccessKey: settings.secretAccessKey,
+  const pinpointClient = new PinpointClient({
+    credentials: {
+      accessKeyId: settings.accessKeyId,
+      secretAccessKey: settings.secretAccessKey,
+    },
     region: _.get(serviceRegionMap, settings.region, defaultPinpointRegion),
   });
 
   try {
-    const response = await pinpointClient
-      .getApp({
-        ApplicationId: pinpointProjectId,
-      })
-      .promise();
+    const response = await pinpointClient.send(new GetAppCommand({
+      ApplicationId: pinpointProjectId,
+    }));
     if (response.ApplicationResponse.Id === pinpointProjectId) {
       result = true;
     }
   } catch (err) {
-    if (err.code === 'NotFoundException') {
+    if (err.name === 'NotFoundException') {
       result = false;
     } else {
       throw err;

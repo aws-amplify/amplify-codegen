@@ -1,6 +1,6 @@
 #!/bin/bash
 
-AMPLIFY_NODE_VERSION=18.20.4
+AMPLIFY_NODE_VERSION=24.12.0
 
 # set exit on error to true
 set -e
@@ -79,7 +79,9 @@ function storeCacheForLinuxBuildJob {
 
 function storeCacheForWindowsBuildJob {
   storeCache $CODEBUILD_SRC_DIR repo-windows windows
-  storeCache $HOME/AppData/Local/Yarn/Cache/v6 .cache-windows windows
+  # Use LOCALAPPDATA if available, otherwise construct the path
+  YARN_CACHE_PATH="${LOCALAPPDATA:-$HOME/AppData/Local}/Yarn/Cache/v6"
+  storeCache "$YARN_CACHE_PATH" .cache-windows windows
 }
 
 function loadCacheFromLinuxBuildJob {
@@ -92,7 +94,9 @@ function loadCacheFromLinuxBuildJob {
 function loadCacheFromWindowsBuildJob {
   # download [repo, .cache] from s3
   loadCache repo-windows $CODEBUILD_SRC_DIR windows
-  loadCache .cache-windows $HOME/AppData/Local/Yarn/Cache/v6 windows
+  # Use LOCALAPPDATA if available, otherwise construct the path
+  YARN_CACHE_PATH="${LOCALAPPDATA:-$HOME/AppData/Local}/Yarn/Cache/v6"
+  loadCache .cache-windows "$YARN_CACHE_PATH" windows
 }
 
 function storeCacheFile {
@@ -151,6 +155,7 @@ function _buildWindows {
 # used when build is not necessary for codebuild project
 function _installLinux {
   _setShell
+  _setupNodeVersionLinux $AMPLIFY_NODE_VERSION
   echo "Linux Install"
   yarn run production-install
   storeCacheForLinuxBuildJob
@@ -159,36 +164,42 @@ function _installLinux {
 function _testLinux {
   echo "Run Unit Test Linux"
   loadCacheFromLinuxBuildJob
+  _setupNodeVersionLinux $AMPLIFY_NODE_VERSION
   yarn test-ci
 }
 
 function _testWindows {
   echo "Run Unit Test Windows"
   loadCacheFromWindowsBuildJob
+  _setupNodeVersionWindows $AMPLIFY_NODE_VERSION
   yarn test-ci
 }
 
 function _verifyAPIExtract {
   echo "Verify API Extract"
   loadCacheFromLinuxBuildJob
+  _setupNodeVersionLinux $AMPLIFY_NODE_VERSION
   yarn verify-api-extract
 }
 
 function _verifyDependencyLicensesExtract {
   echo "Verify Dependency Licenses Extract"
   loadCacheFromLinuxBuildJob
+  _setupNodeVersionLinux $AMPLIFY_NODE_VERSION
   yarn verify-dependency-licenses-extract
 }
 
 function _lint {
   echo "Lint"
   loadCacheFromLinuxBuildJob
+  _setupNodeVersionLinux $AMPLIFY_NODE_VERSION
   chmod +x .codebuild/scripts/lint_pr.sh && ./.codebuild/scripts/lint_pr.sh
 }
 
 function _publishToLocalRegistry {
     echo "Publish To Local Registry"
     loadCacheFromLinuxBuildJob
+    _setupNodeVersionLinux $AMPLIFY_NODE_VERSION
     if [ -z "$BRANCH_NAME" ]; then
       if [ -z "$CODEBUILD_WEBHOOK_TRIGGER" ]; then
         export BRANCH_NAME="$(git symbolic-ref HEAD --short 2>/dev/null)"
@@ -270,6 +281,7 @@ function _setupE2ETestsLinux {
     echo "Setup E2E Tests Linux"
     loadCacheFromLinuxBuildJob
     loadCache verdaccio-cache $CODEBUILD_SRC_DIR/../verdaccio-cache
+    _setupNodeVersionLinux $AMPLIFY_NODE_VERSION
     _installCLIFromLocalRegistry
     _loadTestAccountCredentials
     _setShell
@@ -279,6 +291,7 @@ function _setupE2ETestsWindows {
     echo "Setup E2E Tests Windows"
     loadCacheFromWindowsBuildJob
     loadCache verdaccio-cache $CODEBUILD_SRC_DIR/../verdaccio-cache windows
+    _setupNodeVersionWindows $AMPLIFY_NODE_VERSION
     _installCLIFromLocalRegistry windows
     _loadTestAccountCredentials
     _setShell
@@ -288,6 +301,7 @@ function _setupGen2E2ETestsLinux {
     echo "Setup Gen2 E2E Tests Linux"
     loadCacheFromLinuxBuildJob
     loadCache verdaccio-cache $CODEBUILD_SRC_DIR/../verdaccio-cache
+    _setupNodeVersionLinux $AMPLIFY_NODE_VERSION
     _loadTestAccountCredentials
     _setShell
 }
@@ -296,6 +310,7 @@ function _setupGen2E2ETestsWindows {
     echo "Setup Gen2 E2E Tests Windows"
     loadCacheFromWindowsBuildJob
     loadCache verdaccio-cache $CODEBUILD_SRC_DIR/../verdaccio-cache windows
+    _setupNodeVersionWindows $AMPLIFY_NODE_VERSION
     _loadTestAccountCredentials
     _setShell
 }
@@ -335,6 +350,7 @@ function _scanArtifacts {
 function _cleanupE2EResources {
   echo "Cleanup E2E resources"
   loadCacheFromLinuxBuildJob
+  _setupNodeVersionLinux $AMPLIFY_NODE_VERSION
   cd packages/amplify-codegen-e2e-tests
   echo "Running clean up script"
   build_batch_arn=$(aws codebuild batch-get-builds --ids $CODEBUILD_BUILD_ID | jq -r -c '.builds[0].buildBatchArn')
@@ -496,6 +512,7 @@ function runGen2E2eTest {
 
 function _deploy {
   _setShell
+  _setupNodeVersionLinux $AMPLIFY_NODE_VERSION
   echo "Deploy"
   echo "Authenticate with NPM"
   PUBLISH_TOKEN=$(echo "$NPM_PUBLISH_TOKEN" | jq -r '.token')
@@ -505,6 +522,7 @@ function _deploy {
 
 function _deprecate {
   loadCacheFromLinuxBuildJob
+  _setupNodeVersionLinux $AMPLIFY_NODE_VERSION
   echo "Deprecate"
 
   echo "creating private package manifest"

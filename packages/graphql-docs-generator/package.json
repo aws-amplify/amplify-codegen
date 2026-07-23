@@ -34,7 +34,7 @@
   },
   "dependencies": {
     "graphql": "^15.5.0",
-    "handlebars": "4.7.7",
+    "handlebars": "4.7.9",
     "yargs": "^15.1.0"
   },
   "devDependencies": {

@@ -960,7 +960,8 @@ export class AppSyncModelDartVisitor<
               return '';
           }
           if (rule.provider) {
-            authRule.push(`provider: ${DART_AMPLIFY_CORE_TYPES.AuthRuleProvider}.${rule.provider.toUpperCase()}`);
+            const provider = (rule.provider as string) === 'identityPool' ? 'iam' : rule.provider;
+            authRule.push(`provider: ${DART_AMPLIFY_CORE_TYPES.AuthRuleProvider}.${provider.toUpperCase()}`);
           }
           authRule.push(
             [
