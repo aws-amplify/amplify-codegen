@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.46.2](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/amplify-codegen-e2e-tests@2.46.1...@aws-amplify/amplify-codegen-e2e-tests@2.46.2) (2026-07-23)
+
+### Bug Fixes
+
+- use AMPLIFY_NODE_VERSION consistently across all CI functions & make cleanup resilient ([#1020](https://github.com/aws-amplify/amplify-codegen/issues/1020)) ([97e84de](https://github.com/aws-amplify/amplify-codegen/commit/97e84de93ba565dd74c0e732f39ba1d7a0438891))
+
 ## [2.46.1](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/amplify-codegen-e2e-tests@2.46.0...@aws-amplify/amplify-codegen-e2e-tests@2.46.1) (2025-03-11)
 
 **Note:** Version bump only for package @aws-amplify/amplify-codegen-e2e-tests

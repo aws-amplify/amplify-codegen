@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.10.4](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@4.10.3...amplify-codegen@4.10.4) (2026-07-23)
+
+### Bug Fixes
+
+- mocking ([cb95b7c](https://github.com/aws-amplify/amplify-codegen/commit/cb95b7c6c91a34a9eec91b4b229d06d578c11707))
+
+### Reverts
+
+- Revert "chore: resolving paths" ([3467f08](https://github.com/aws-amplify/amplify-codegen/commit/3467f08bf7ae7b46d78d0c326d72b09765a6e9de))
+
 ## [4.10.3](https://github.com/aws-amplify/amplify-codegen/compare/amplify-codegen@4.10.2...amplify-codegen@4.10.3) (2025-02-25)
 
 **Note:** Version bump only for package amplify-codegen

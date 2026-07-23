@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.2.2](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/graphql-docs-generator@4.2.1...@aws-amplify/graphql-docs-generator@4.2.2) (2026-07-23)
+
+### Bug Fixes
+
+- resolve critical dependabot security vulnerabilities ([#1019](https://github.com/aws-amplify/amplify-codegen/issues/1019)) ([9e11644](https://github.com/aws-amplify/amplify-codegen/commit/9e11644cd36ea5fc79af3b7f8b4d9b132f3badf0)), closes [#156](https://github.com/aws-amplify/amplify-codegen/issues/156) [#164](https://github.com/aws-amplify/amplify-codegen/issues/164) [#178](https://github.com/aws-amplify/amplify-codegen/issues/178) [#179](https://github.com/aws-amplify/amplify-codegen/issues/179)
+
 ## [4.2.1](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/graphql-docs-generator@4.2.0...@aws-amplify/graphql-docs-generator@4.2.1) (2023-12-11)
 
 **Note:** Version bump only for package @aws-amplify/graphql-docs-generator

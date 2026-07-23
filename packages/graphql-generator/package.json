@@ -1,6 +1,6 @@
 {
   "name": "@aws-amplify/graphql-generator",
-  "version": "0.5.3",
+  "version": "0.5.4",
   "description": "GraphQL API code generator",
   "repository": {
     "type": "git",
@@ -25,9 +25,9 @@
     "check-codegen-version": "bash ./scripts/check-codegen-version.sh"
   },
   "dependencies": {
-    "@aws-amplify/appsync-modelgen-plugin": "2.15.2",
+    "@aws-amplify/appsync-modelgen-plugin": "2.15.3",
     "@aws-amplify/graphql-directives": "^1.0.1",
-    "@aws-amplify/graphql-docs-generator": "4.2.1",
+    "@aws-amplify/graphql-docs-generator": "4.2.2",
     "@aws-amplify/graphql-types-generator": "3.6.0",
     "@graphql-codegen/core": "^2.6.6",
     "@graphql-codegen/plugin-helpers": "^3.1.1",

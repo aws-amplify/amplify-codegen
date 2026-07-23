@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.15.3](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@2.15.2...@aws-amplify/appsync-modelgen-plugin@2.15.3) (2026-07-23)
+
+### Bug Fixes
+
+- **appsync-modelgen-plugin:** map identityPool provider to IAM in generated Dart code ([#1033](https://github.com/aws-amplify/amplify-codegen/issues/1033)) ([891ca29](https://github.com/aws-amplify/amplify-codegen/commit/891ca29c219aba2cf124c868986e23ac4b379b23))
+
 ## [2.15.2](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/appsync-modelgen-plugin@2.15.1...@aws-amplify/appsync-modelgen-plugin@2.15.2) (2025-02-25)
 
 ### Bug Fixes

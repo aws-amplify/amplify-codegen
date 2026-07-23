@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.6.9](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/amplify-codegen-e2e-core@1.6.8...@aws-amplify/amplify-codegen-e2e-core@1.6.9) (2026-07-23)
+
+### Bug Fixes
+
+- **amplify-codegen-e2e-core:** use platform-specific spawning to resolve node-pty faults in linux ([#995](https://github.com/aws-amplify/amplify-codegen/issues/995)) ([12bf4d5](https://github.com/aws-amplify/amplify-codegen/commit/12bf4d5a8b92ea4c5027d39d2d637beebf757a49))
+
 ## [1.6.8](https://github.com/aws-amplify/amplify-codegen/compare/@aws-amplify/amplify-codegen-e2e-core@1.6.7...@aws-amplify/amplify-codegen-e2e-core@1.6.8) (2025-03-11)
 
 **Note:** Version bump only for package @aws-amplify/amplify-codegen-e2e-core
