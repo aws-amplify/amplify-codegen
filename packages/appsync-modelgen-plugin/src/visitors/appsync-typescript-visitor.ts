@@ -250,8 +250,9 @@ export class AppSyncModelTypeScriptVisitor<
           const modelClassName = this.generateModelImportAlias(model);
           const exportClassName = this.getModelName(model);
           return modelClassName !== exportClassName ? `${modelClassName} as ${exportClassName}` : modelClassName;
+        } else if (model.type === 'enum') {
+          return pascalCase(model.name);
         }
-        return model.name;
       })
       .join(',\n');
     return ['export {', indentMultiline(exportStr), '};'].join('\n');
