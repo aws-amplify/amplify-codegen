@@ -255,7 +255,21 @@ export class TypeScriptDeclarationBlock {
   }
 
   protected generateInterface(): string {
-    throw new Error('Not implemented yet');
+    const header = [
+        this._flags.shouldExport ? 'export' : '',
+        this._flags.isDeclaration ? 'declare' : '',
+        'interface',
+        this._name,
+        '{',
+    ];
+
+    if (this._extends.length) {
+        header.push(['extends', this._extends.join(', ')].join(' '));
+    }
+
+    const body = [this.generateProperties()];
+
+    return [`${header.filter(h => h).join(' ')}`, indentMultiline(body.join('\n')), '}'].join('\n');
   }
 
   protected generateType(): string {
