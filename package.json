@@ -49,7 +49,13 @@
     "authenticate-e2e-profile": "source scripts/cloud-utils.sh && authenticateWithE2EProfile",
     "extract-dependency-licenses": "./scripts/extract-dependency-licenses.sh",
     "verify-dependency-licenses-extract": "yarn extract-dependency-licenses && ./scripts/verify-dependency-licenses.sh",
-    "deprecate": "ts-node scripts/deprecate_release.ts"
+    "deprecate": "ts-node scripts/deprecate_release.ts",
+    "e2e-status": "yarn ts-node scripts/e2e-test-manager.ts status",
+    "e2e-monitor": "yarn ts-node scripts/e2e-test-manager.ts monitor",
+    "e2e-retry": "yarn ts-node scripts/e2e-test-manager.ts retry",
+    "e2e-list": "yarn ts-node scripts/e2e-test-manager.ts list",
+    "e2e-failed": "yarn ts-node scripts/e2e-test-manager.ts failed",
+    "e2e-logs": "yarn ts-node scripts/e2e-test-manager.ts logs"
   },
   "bugs": {
     "url": "https://github.com/aws-amplify/amplify-codegen/issues"
@@ -126,7 +132,8 @@
     "rimraf": "^3.0.0",
     "ts-jest": "^27.0.0",
     "ts-node": "^8.10.1",
-    "typescript": "4.7.4"
+    "typescript": "4.7.4",
+    "@aws-sdk/client-cloudwatch-logs": "^3.1080.0"
   },
   "resolutions": {
     "**/@aws-amplify/amplify-codegen-e2e-tests/**/cookie": "^0.7.0",
