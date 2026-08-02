@@ -3,6 +3,7 @@ import { deleteAmplifyProject, testCodegenModels } from '../codegen-tests-base';
 import * as path from 'path';
 
 const schema = 'modelgen/model_gen_schema_with_aws_scalars.graphql';
+const customTypeWithModelRefSchema = 'modelgen/custom_type_with_model_reference.graphql';
 
 describe('Datastore Modelgen tests - iOS', () => {
     let projectRoot: string;
@@ -21,5 +22,9 @@ describe('Datastore Modelgen tests - iOS', () => {
 
     it(`should generate files at overridden location`, async () => {
       await testCodegenModels(DEFAULT_IOS_CONFIG, projectRoot, schema, path.join('amplification', 'manufactured', 'models'));
+    });
+
+    it(`should generate correct syntax for custom types referencing @model types`, async () => {
+      await testCodegenModels(DEFAULT_IOS_CONFIG, projectRoot, customTypeWithModelRefSchema);
     });
 });
