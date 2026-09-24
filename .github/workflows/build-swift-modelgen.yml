@@ -13,7 +13,7 @@ env:
 jobs:
   Build-Swift-Modelgen:
     name: Build
-    runs-on: macos-14-xlarge
+    runs-on: macos-15-xlarge
     permissions:
       actions: read
       contents: read
@@ -23,7 +23,7 @@ jobs:
 
     steps:
       - name: Set Xcode version
-        run: sudo xcode-select --switch "/Applications/Xcode_16.1.0.app"
+        run: sudo xcode-select --switch "/Applications/Xcode_26.1.app"
         
       - name: Mask S3 URL
         run: echo "::add-mask::$MODELS_S3_URL"
