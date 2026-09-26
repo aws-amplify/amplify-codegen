@@ -613,9 +613,9 @@ export class AppSyncModelDartVisitor<
               case 'String':
                 toStringVal = `"$${fieldName}"`;
                 break;
-              case this.scalars['AWSDate']:
-              case this.scalars['AWSTime']:
-              case this.scalars['AWSDateTime']:
+              case this.getScalarType('AWSDate'):
+              case this.getScalarType('AWSTime'):
+              case this.getScalarType('AWSDateTime'):
                 toStringVal = `(${fieldName} != null ? ${fieldName}!.format() : "null")`;
                 break;
               default:
@@ -768,25 +768,25 @@ export class AppSyncModelDartVisitor<
           //regular type
           const fieldNativeType = this.getNativeType({ ...field, isList: false });
           switch (fieldNativeType) {
-            case this.scalars['AWSDate']:
-            case this.scalars['AWSTime']:
-            case this.scalars['AWSDateTime']:
+            case this.getScalarType('AWSDate'):
+            case this.getScalarType('AWSTime'):
+            case this.getScalarType('AWSDateTime'):
               return field.isList
                 ? `${fieldName} = (json['${varName}'] as ${this.getNullableTypeStr(
                     'List',
                   )})?.map((e) => ${fieldNativeType}.fromString(e)).toList()`
                 : `${fieldName} = json['${varName}'] != null ? ${fieldNativeType}.fromString(json['${varName}']) : null`;
-            case this.scalars['AWSTimestamp']:
+            case this.getScalarType('AWSTimestamp'):
               return field.isList
                 ? `${fieldName} = (json['${varName}'] as ${this.getNullableTypeStr(
                     'List',
                   )})?.map((e) => ${fieldNativeType}.fromSeconds(e)).toList()`
                 : `${fieldName} = json['${varName}'] != null ? ${fieldNativeType}.fromSeconds(json['${varName}']) : null`;
-            case this.scalars['Int']:
+            case this.getScalarType('Int'):
               return field.isList
                 ? `${fieldName} = (json['${varName}'] as ${this.getNullableTypeStr('List')})?.map((e) => (e as num).toInt()).toList()`
                 : `${fieldName} = (json['${varName}'] as ${this.getNullableTypeStr('num')})?.toInt()`;
-            case this.scalars['Float']:
+            case this.getScalarType('Float'):
               return field.isList
                 ? `${fieldName} = (json['${varName}'] as ${this.getNullableTypeStr('List')})?.map((e) => (e as num).toDouble()).toList()`
                 : `${fieldName} = (json['${varName}'] as ${this.getNullableTypeStr('num')})?.toDouble()`;
@@ -825,11 +825,11 @@ export class AppSyncModelDartVisitor<
         }
         const fieldNativeType = this.getNativeType({ ...field, isList: false });
         switch (fieldNativeType) {
-          case this.scalars['AWSDate']:
-          case this.scalars['AWSTime']:
-          case this.scalars['AWSDateTime']:
+          case this.getScalarType('AWSDate'):
+          case this.getScalarType('AWSTime'):
+          case this.getScalarType('AWSDateTime'):
             return field.isList ? `'${varName}': ${fieldName}?.map((e) => e.format()).toList()` : `'${varName}': ${fieldName}?.format()`;
-          case this.scalars['AWSTimestamp']:
+          case this.getScalarType('AWSTimestamp'):
             return field.isList
               ? `'${varName}': ${fieldName}?.map((e) => e.toSeconds()).toList()`
               : `'${varName}': ${fieldName}?.toSeconds()`;

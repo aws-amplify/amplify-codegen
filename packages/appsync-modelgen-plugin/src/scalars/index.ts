@@ -1,7 +1,18 @@
 import { NormalizedScalarsMap } from '@graphql-codegen/visitor-plugin-common';
 import { AMPLIFY_CORE_PREFIX } from '../configs/dart-config';
 
-export const JAVA_SCALAR_MAP: NormalizedScalarsMap = {
+const createScalarMap = (scalarTypes: Record<string, string>): NormalizedScalarsMap => {
+  const normalizedScalars: NormalizedScalarsMap = {};
+  Object.entries(scalarTypes).forEach(([scalarName, scalarType]) => {
+    normalizedScalars[scalarName] = {
+      input: scalarType,
+      output: scalarType,
+    };
+  });
+  return normalizedScalars;
+};
+
+export const JAVA_SCALAR_MAP: NormalizedScalarsMap = createScalarMap({
   ID: 'String',
   String: 'String',
   Int: 'Integer',
@@ -16,7 +27,7 @@ export const JAVA_SCALAR_MAP: NormalizedScalarsMap = {
   AWSURL: 'String',
   AWSPhone: 'String',
   AWSIPAddress: 'String',
-};
+});
 
 // Package that needs to be imported when using the types
 export const JAVA_TYPE_IMPORT_MAP: Record<string, string> = {
@@ -26,7 +37,7 @@ export const JAVA_TYPE_IMPORT_MAP: Record<string, string> = {
   'Temporal.Timestamp': 'com.amplifyframework.core.model.temporal.Temporal',
 };
 
-export const SWIFT_SCALAR_MAP: NormalizedScalarsMap = {
+export const SWIFT_SCALAR_MAP: NormalizedScalarsMap = createScalarMap({
   ID: 'String',
   String: 'String',
   Int: 'Int',
@@ -41,9 +52,9 @@ export const SWIFT_SCALAR_MAP: NormalizedScalarsMap = {
   AWSURL: 'String',
   AWSPhone: 'String',
   AWSIPAddress: 'String',
-};
+});
 
-export const TYPESCRIPT_SCALAR_MAP: NormalizedScalarsMap = {
+export const TYPESCRIPT_SCALAR_MAP: NormalizedScalarsMap = createScalarMap({
   ID: 'string',
   String: 'string',
   Int: 'number',
@@ -58,9 +69,9 @@ export const TYPESCRIPT_SCALAR_MAP: NormalizedScalarsMap = {
   AWSURL: 'string',
   AWSPhone: 'string',
   AWSIPAddress: 'string',
-};
+});
 
-export const METADATA_SCALAR_MAP: NormalizedScalarsMap = {
+export const METADATA_SCALAR_MAP: NormalizedScalarsMap = createScalarMap({
   ID: 'ID',
   Boolean: 'Boolean',
   String: 'String',
@@ -75,9 +86,9 @@ export const METADATA_SCALAR_MAP: NormalizedScalarsMap = {
   Int: 'Int',
   Float: 'Float',
   AWSTimestamp: 'AWSTimestamp',
-};
+});
 
-export const DART_SCALAR_MAP: NormalizedScalarsMap = {
+export const DART_SCALAR_MAP: NormalizedScalarsMap = createScalarMap({
   ID: 'String',
   String: 'String',
   Int: 'int',
@@ -92,4 +103,4 @@ export const DART_SCALAR_MAP: NormalizedScalarsMap = {
   AWSURL: 'String',
   AWSPhone: 'String',
   AWSIPAddress: 'String',
-};
+});

@@ -265,7 +265,7 @@ export class AppSyncJSONVisitor<
   private getType(gqlType: string): JSONModelFieldType {
     // Todo: Handle unlisted scalars
     if (gqlType in METADATA_SCALAR_MAP) {
-      return METADATA_SCALAR_MAP[gqlType as keyof typeof METADATA_SCALAR_MAP];
+      return METADATA_SCALAR_MAP[gqlType as keyof typeof METADATA_SCALAR_MAP].output as JSONModelFieldType;
     }
     if (gqlType in this.enumMap) {
       return { enum: this.enumMap[gqlType].name };
