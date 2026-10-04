@@ -1533,6 +1533,67 @@ describe('AppSyncSwiftVisitor', () => {
     `);
   });
 
+  it('should support custom types referencing @model types', () => {
+    const schema = /* GraphQL */ `
+      type Product @model {
+        id: ID!
+        name: String!
+        price: Float!
+      }
+
+      type OrderSummary {
+        orderId: ID!
+        product: Product!
+        quantity: Int!
+      }
+    `;
+
+    const visitorOrderSummary = getVisitor(schema, 'OrderSummary', CodeGenGenerateEnum.code);
+    expect(visitorOrderSummary.generate()).toMatchInlineSnapshot(`
+      "// swiftlint:disable all
+      import Amplify
+      import Foundation
+
+      public struct OrderSummary: Embeddable {
+        var orderId: String
+        var product: Product
+        var quantity: Int
+      }"
+    `);
+
+    const visitorOrderSummarySchema = getVisitor(schema, 'OrderSummary', CodeGenGenerateEnum.metadata);
+    expect(visitorOrderSummarySchema.generate()).toMatchInlineSnapshot(`
+      "// swiftlint:disable all
+      import Amplify
+      import Foundation
+
+      extension OrderSummary {
+        // MARK: - CodingKeys 
+         public enum CodingKeys: String, ModelKey {
+          case orderId
+          case product
+          case quantity
+        }
+        
+        public static let keys = CodingKeys.self
+        //  MARK: - ModelSchema 
+        
+        public static let schema = defineSchema { model in
+          let orderSummary = OrderSummary.keys
+          
+          model.listPluralName = \\"OrderSummaries\\"
+          model.syncPluralName = \\"OrderSummaries\\"
+          
+          model.fields(
+            .field(orderSummary.orderId, is: .required, ofType: .string),
+            .field(orderSummary.product, is: .required, ofType: .model(type: Product.self)),
+            .field(orderSummary.quantity, is: .required, ofType: .int)
+          )
+          }
+      }"
+    `);
+  });
+
   it('should escape swift reserved keywords in enum', () => {
     const schema = /* GraphQL */ `
       enum PostStatus {
