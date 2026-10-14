@@ -8,20 +8,34 @@ import {
   ParsedAppSyncModelConfig,
   RawAppSyncModelConfig,
   CodeGenEnum,
+  CodeGenUnion,
+  CodeGenInterface,
 } from './appsync-visitor';
 import { METADATA_SCALAR_MAP } from '../scalars';
 export type JSONSchema = {
   models: JSONSchemaModels;
   enums: JSONSchemaEnums;
   nonModels: JSONSchemaTypes;
+  interfaces: JSONSchemaInterfaces;
+  unions: JSONSchemaUnions;
   version: string;
   codegenVersion: string;
 };
 export type JSONSchemaModels = Record<string, JSONSchemaModel>;
 export type JSONSchemaTypes = Record<string, JSONSchemaNonModel>;
+export type JSONSchemaInterfaces = Record<string, JSONSchemaInterface>;
+export type JSONSchemaUnions = Record<string, JSONSchemaUnion>;
 export type JSONSchemaNonModel = {
   name: string;
   fields: JSONModelFields;
+};
+export type JSONSchemaInterface = {
+  name: string;
+  fields: JSONModelFields;
+};
+export type JSONSchemaUnion = {
+  name: string;
+  types: JSONModelFieldType[];
 };
 type JSONSchemaModel = {
   name: string;
@@ -58,7 +72,7 @@ type AssociationBelongsTo = AssociationBaseType & {
 
 type AssociationType = AssociationHasMany | AssociationHasOne | AssociationBelongsTo;
 
-type JSONModelFieldType = keyof typeof METADATA_SCALAR_MAP | { model: string } | { enum: string } | { nonModel: string };
+type JSONModelFieldType = keyof typeof METADATA_SCALAR_MAP | { model: string } | { enum: string } | { nonModel: string } | { interface: string } | { union: string };
 type JSONModelField = {
   name: string;
   type: JSONModelFieldType;
@@ -147,7 +161,27 @@ export class AppSyncJSONVisitor<
   }
 
   protected generateTypeDeclaration() {
-    return ["import { Schema } from '@aws-amplify/datastore';", '', 'export declare const schema: Schema;'].join('\n');
+    return `import type { Schema, SchemaNonModel, ModelField, ModelFieldType } from '@aws-amplify/datastore';
+
+type Replace<T, R> = Omit<T, keyof R> & R;
+type WithFields = { fields: Record<string, ModelField> };
+type SchemaTypes = Record<string, WithFields>;
+
+export type ExtendModelFieldType = ModelField['type'] | { interface: string } | { union: string };
+export type ExtendModelField = Replace<ModelField, { type: ExtendModelFieldType }>;
+export type ExtendType<T extends WithFields> = Replace<T, { fields: Record<string, ExtendModelField> }>
+export type ExtendFields<Types extends SchemaTypes | undefined> = {
+  [TypeName in keyof Types]: ExtendType<Types[TypeName]>
+}
+
+type ExtendFieldsAll<T> = {
+    [K in keyof T]: T[K] extends SchemaTypes | undefined ? ExtendFields<T[K]> : T[K];
+};
+
+export declare const schema: ExtendFieldsAll<Schema & {
+    interfaces: Schema['nonModels'];
+    unions?: Record<string, {name: string, types: ExtendModelFieldType[]}>;
+}>;`;
   }
 
   protected generateJSONMetadata(): string {
@@ -160,6 +194,8 @@ export class AppSyncJSONVisitor<
       models: {},
       enums: {},
       nonModels: {},
+      interfaces: {},
+      unions: {},
       // This is hard-coded for the schema version purpose instead of codegen version
       // To avoid the failure of validation method checkCodegenSchema in JS Datastore
       // The hard code is starting from amplify codegen major version 4
@@ -175,11 +211,19 @@ export class AppSyncJSONVisitor<
       return { ...acc, [nonModel.name]: this.generateNonModelMetadata(nonModel) };
     }, {});
 
+    const interfaces = Object.values(this.getSelectedInterfaces()).reduce((acc, codegenInterface: CodeGenInterface) => {
+      return { ...acc, [codegenInterface.name]: this.generateInterfaceMetadata(codegenInterface) };
+    }, {});
+
+    const unions = Object.values(this.getSelectedUnions()).reduce((acc, union: CodeGenUnion) => {
+      return { ...acc, [union.name]: this.generateUnionMetadata(union) };
+    }, {});
+
     const enums = Object.values(this.enumMap).reduce((acc, enumObj) => {
       const enumV = this.generateEnumMetadata(enumObj);
       return { ...acc, [this.getEnumName(enumObj)]: enumV };
     }, {});
-    return { ...result, models, nonModels: nonModels, enums };
+    return { ...result, models, nonModels: nonModels, enums, interfaces, unions };
   }
 
   private getFieldAssociation(field: CodeGenField): AssociationType | void {
@@ -229,37 +273,56 @@ export class AppSyncJSONVisitor<
   private generateNonModelMetadata(nonModel: CodeGenModel): JSONSchemaNonModel {
     return {
       name: this.getModelName(nonModel),
-      fields: nonModel.fields.reduce((acc: JSONModelFields, field: CodeGenField) => {
-        const fieldMeta: JSONModelField = {
-          name: this.getFieldName(field),
-          isArray: field.isList,
-          type: this.getType(field.type),
-          isRequired: !field.isNullable,
-          attributes: [],
-        };
-
-        if (field.isListNullable !== undefined) {
-          fieldMeta.isArrayNullable = field.isListNullable;
-        }
-
-        if (field.isReadOnly !== undefined) {
-          fieldMeta.isReadOnly = field.isReadOnly;
-        }
-
-        const association: AssociationType | void = this.getFieldAssociation(field);
-        if (association) {
-          fieldMeta.association = association;
-        }
-        acc[fieldMeta.name] = fieldMeta;
-        return acc;
-      }, {}),
+      fields: this.generateFieldsMetadata(nonModel.fields)
     };
   }
+
+  private generateInterfaceMetadata(codeGenInterface: CodeGenInterface): JSONSchemaInterface {
+    return {
+      name: codeGenInterface.name,
+      fields: this.generateFieldsMetadata(codeGenInterface.fields),
+    };
+  }
+
+  private generateUnionMetadata(codeGenUnion: CodeGenUnion): JSONSchemaUnion {
+    return {
+      name: codeGenUnion.name,
+      types: codeGenUnion.typeNames.map(t => this.getType(t))
+    };
+  }
+
   private generateEnumMetadata(enumObj: CodeGenEnum): JSONSchemaEnum {
     return {
       name: enumObj.name,
       values: Object.values(enumObj.values),
     };
+  }
+
+  private generateFieldsMetadata(fields: CodeGenField[]): JSONModelFields {
+    return fields.reduce((acc: JSONModelFields, field: CodeGenField) => {
+      const fieldMeta: JSONModelField = {
+        name: this.getFieldName(field),
+        isArray: field.isList,
+        type: this.getType(field.type),
+        isRequired: !field.isNullable,
+        attributes: [],
+      };
+
+      if (field.isListNullable !== undefined) {
+        fieldMeta.isArrayNullable = field.isListNullable;
+      }
+
+      if (field.isReadOnly !== undefined) {
+        fieldMeta.isReadOnly = field.isReadOnly;
+      }
+
+      const association: AssociationType | void = this.getFieldAssociation(field);
+      if (association) {
+        fieldMeta.association = association;
+      }
+      acc[fieldMeta.name] = fieldMeta;
+      return acc;
+    }, {})
   }
 
   private getType(gqlType: string): JSONModelFieldType {
@@ -272,6 +335,12 @@ export class AppSyncJSONVisitor<
     }
     if (gqlType in this.nonModelMap) {
       return { nonModel: gqlType };
+    }
+    if (gqlType in this.interfaceMap) {
+      return { interface: this.interfaceMap[gqlType].name };
+    }
+    if (gqlType in this.unionMap) {
+      return { union: this.unionMap[gqlType].name };
     }
     if (gqlType in this.modelMap) {
       return { model: gqlType };

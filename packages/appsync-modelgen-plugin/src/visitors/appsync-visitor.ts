@@ -558,6 +558,23 @@ export class AppSyncModelVisitor<
     }
     return this.enumMap;
   }
+
+  protected getSelectedUnions(): CodeGenUnionMap {
+    if (this._parsedConfig.selectedType) {
+      const selectedModel = this.unionMap[this._parsedConfig.selectedType];
+      return selectedModel ? { [this._parsedConfig.selectedType]: selectedModel } : {};
+    }
+    return this.unionMap;
+  }
+
+  protected getSelectedInterfaces(): CodeGenInterfaceMap {
+    if (this._parsedConfig.selectedType) {
+      const selectedModel = this.interfaceMap[this._parsedConfig.selectedType];
+      return selectedModel ? { [this._parsedConfig.selectedType]: selectedModel } : {};
+    }
+    return this.interfaceMap;
+  }
+
   protected selectedTypeIsEnum() {
     if (this._parsedConfig && this._parsedConfig.selectedType) {
       if (this._parsedConfig.selectedType in this.enumMap) {
@@ -591,6 +608,10 @@ export class AppSyncModelVisitor<
       typeNameStr = this.getEnumName(this.enumMap[typeName]);
     } else if (this.isNonModelType(field)) {
       typeNameStr = this.getNonModelName(this.nonModelMap[typeName]);
+    } else if (this.isUnionType(field)) {
+      typeNameStr = this.getUnionName(this.unionMap[typeName]);
+    } else if (this.isInterfaceType(field)) {
+      typeNameStr = this.getInterfaceName(this.interfaceMap[typeName]);
     } else {
       throw new Error(`Unknown type ${typeName} for field ${field.name}. Did you forget to add the @model directive`);
     }
@@ -615,6 +636,14 @@ export class AppSyncModelVisitor<
 
   protected getModelName(model: CodeGenModel) {
     return model.name;
+  }
+
+  protected getUnionName(union: CodeGenUnion) {
+    return union.name;
+  }
+
+  protected getInterfaceName(codeGenInterface: CodeGenInterface) {
+    return codeGenInterface.name;
   }
 
   protected getNonModelName(model: CodeGenModel) {
@@ -642,6 +671,16 @@ export class AppSyncModelVisitor<
   protected isNonModelType(field: CodeGenField): boolean {
     const typeName = field.type;
     return typeName in this.nonModelMap;
+  }
+
+  protected isUnionType(field: CodeGenField): boolean {
+    const typeName = field.type;
+    return typeName in this.unionMap;
+  }
+
+  protected isInterfaceType(field: CodeGenField): boolean {
+    const typeName = field.type;
+    return typeName in this.interfaceMap;
   }
 
   protected computeVersion(): string {

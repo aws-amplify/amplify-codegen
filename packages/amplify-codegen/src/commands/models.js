@@ -1,7 +1,7 @@
 const path = require('path');
 const fs = require('fs-extra');
 const globby = require('globby');
-const { FeatureFlags, pathManager } = require('@aws-amplify/amplify-cli-core');
+const { FeatureFlags, pathManager, stateManager, CLIContextEnvironmentProvider } = require('@aws-amplify/amplify-cli-core');
 const { generateModels: generateModelsHelper } = require('@aws-amplify/graphql-generator');
 const { DefaultDirectives } = require('@aws-amplify/graphql-directives');
 const { validateAmplifyFlutterMinSupportedVersion } = require('../utils/validateAmplifyFlutterMinSupportedVersion');
@@ -257,6 +257,15 @@ async function generateModels(context, generateOptions = null) {
   validationFailures.forEach(context.print.error);
   if (validationFailures.length > 0) {
     return;
+  }
+
+  if (!FeatureFlags.isInitialized()) {
+    const contextEnvironmentProvider = new CLIContextEnvironmentProvider({
+      getEnvInfo: context.amplify.getEnvInfo,
+    });
+
+    const useNewDefaults = !stateManager.projectConfigExists(projectRoot);
+    await FeatureFlags.initialize(contextEnvironmentProvider, useNewDefaults);
   }
 
   const generatedCode = await generateModelsHelper({
